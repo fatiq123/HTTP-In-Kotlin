@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,12 +14,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.lifecycleScope
 import com.example.httpinkotlin.ui.theme.HTTPInKotlinTheme
@@ -33,18 +36,47 @@ import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
 
+    // shared preferences
+    private val tipMenuLiveData = MutableLiveData<Boolean>()
+    private val sharedPreferences by lazy {
+        getSharedPreferences("LittleLemon", MODE_PRIVATE)
+    }
+
+    // ktor 
     private val client = HttpClient(Android) {
         install(ContentNegotiation) {
             json(contentType = ContentType("text", "plain"))
         }
     }
-
     private val menuItemsLiveData = MutableLiveData<List<String>>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        tipMenuLiveData.value = sharedPreferences.getBoolean("Tip", false)
+
         setContent {
-            HTTPInKotlinTheme {
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Text(text = "Add Tip?")
+
+                val selected = tipMenuLiveData.observeAsState(false)
+
+                Switch(checked = selected.value, onCheckedChange = {
+                    sharedPreferences.edit(commit = true) {
+                        putBoolean("Tip", it)
+                    }
+                    runOnUiThread {
+                        tipMenuLiveData.value = it
+                    }
+                })
+            }
+
+            // using Ktor
+            /*HTTPInKotlinTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
@@ -56,7 +88,7 @@ class MainActivity : ComponentActivity() {
                         MenuItems(items.value)
                     }
                 }
-            }
+            }*/
         }
     }
 
