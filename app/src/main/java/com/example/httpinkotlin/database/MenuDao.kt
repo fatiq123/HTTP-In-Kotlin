@@ -16,5 +16,5 @@ interface MenuDao {
     fun saveMenuItems(menuItem: MenuItem)
 
     @Delete
-    fun deleteMenuItem(menuItem: MenuItem)
+    fun deleteMenuItem(menuItem: Int)
 }

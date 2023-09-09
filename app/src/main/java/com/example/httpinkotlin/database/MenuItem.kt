@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey
 @Entity
 data class MenuItem(
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
+    val id: String,
     val name: String,
-    val price: String
+    val price: Double
 )
