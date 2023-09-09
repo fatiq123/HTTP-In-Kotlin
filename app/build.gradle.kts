@@ -69,9 +69,20 @@ dependencies {
 
     // Ktor
     implementation("io.ktor:ktor-server-core:2.3.4")
-    implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
-
     implementation("io.ktor:ktor-client-core:2.3.4")
     implementation("io.ktor:ktor-client-cio:2.3.4")
+    implementation("io.ktor:ktor-client-android:2.1.3")
+    implementation("io.ktor:ktor-client-content-negotiation:2.1.3")
+
+    // LiveData
+    implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
+
+    // Glide
+    implementation("com.github.bumptech.glide:glide:4.14.2")    // this is for traditional view
+    implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1") // this is for compose
+
+
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
 
 }
