@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -75,14 +76,18 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:2.1.3")
 
     // LiveData
-    implementation("androidx.compose.runtime:runtime-livedata:1.4.3")
+    implementation("androidx.compose.runtime:runtime-livedata:1.5.1")
 
     // Glide
     implementation("com.github.bumptech.glide:glide:4.14.2")    // this is for traditional view
     implementation("com.github.bumptech.glide:compose:1.0.0-alpha.1") // this is for compose
 
-
+    // kotlin serialization
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.1.3")
 
+    // Room
+    val room_version = "2.5.2"
+    implementation("androidx.room:room-runtime:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
 }
